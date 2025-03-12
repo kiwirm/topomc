@@ -78,7 +78,6 @@
                 "mycelium",
                 "podzol",
                 "farmland",
-                "dirt_path",
                 "rooted_dirt",
                 "packed_mud",
                 "muddy_mangrove_roots",
@@ -220,6 +219,14 @@
                 "stripped_mangrove_log",
                 "stripped_cherry_log",
                 "mushroom_stem"
+            ]
+        }
+    },
+    "505": {
+        "name": "Footpath",
+        "blocks": {
+            "ground": [
+                "dirt_path"
             ]
         }
     },

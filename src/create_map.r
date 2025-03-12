@@ -37,6 +37,7 @@ suppressPackageStartupMessages({
   library(jsonlite)
   library(tiff)
   library(smoothr)
+  library(mmand)
 })
 
 symbol_data <- fromJSON("symbols.json", simplifyDataFrame = FALSE)
@@ -175,6 +176,32 @@ buildings <- list(
   ),
   smoothing = 0
 )
+
+log_info("Creating paths...")
+paths <- data$landcover
+paths[!(data$landcover %in% (match(symbol_data$`505`$blocks$ground, surface_blocks) - 1))] <- NA
+paths <- list(
+  feature = paths |>
+    buffer(2) |>
+    as.numeric() |>
+    as.array() |>
+    skeletonise(method = "hitormiss"),
+  smoothing = 3
+)
+
+adjacency_list <- function(mat) {
+  adjacency <- list()
+  for (row in seq_len(nrow(mat))) {
+    for (col in seq_len(ncol(mat))) {
+      c(
+        adjacency,
+        mat[col][row]
+      )
+    }
+  }
+  adjacency
+}
+
 
 log_info("Creating canopy...")
 data$canopy[data$canopy == 0] <- NA
